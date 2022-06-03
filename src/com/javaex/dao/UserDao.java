@@ -100,6 +100,7 @@ public class UserDao {
 			//SQL문 준비 
 			String query = "";
 			query += " select  no, ";
+			query += "         id, ";
 			query += "         name ";
 			query += " from users ";
 			query += " where id = ? ";
@@ -121,6 +122,7 @@ public class UserDao {
 				
 				authUser = new UserVo();
 				authUser.setNo(no);
+				authUser.setId(id);
 				authUser.setName(name);
 			}
 			

@@ -2,6 +2,9 @@
 
 <%@page import="com.javaex.vo.UserVo" %>
 
+<%  UserVo authUser = (UserVo)session.getAttribute("authUser");
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -74,7 +77,8 @@
 
 				<div id="user">
 					<div id="modifyForm">
-						<form action="/mysite2/user" method="get">
+						<form action="/mysite2/user" method="">
+						<input type="text" name="action" value="modify">
 
 							<!-- 아이디 -->
 							<div class="form-group">

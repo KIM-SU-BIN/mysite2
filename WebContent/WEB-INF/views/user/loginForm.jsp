@@ -77,16 +77,14 @@
 
 							<!-- 아이디 -->
 							<div class="form-group">
-								<label class="form-text" for="input-uid">아이디</label> <input
-									type="text" id="input-uid" name="id" value=""
-									placeholder="아이디를 입력하세요">
+								<label class="form-text" for="input-uid">아이디</label> 
+								<input type="text" id="input-uid" name="id" value="" placeholder="아이디를 입력하세요">
 							</div>
 
 							<!-- 비밀번호 -->
 							<div class="form-group">
-								<label class="form-text" for="input-pass">비밀번호</label> <input
-									type="text" id="input-pass" name="password" value=""
-									placeholder="비밀번호를 입력하세요">
+								<label class="form-text" for="input-pass">비밀번호</label> 
+								<input type="text" id="input-pass" name="password" value="" placeholder="비밀번호를 입력하세요">
 							</div>
 
 
@@ -106,7 +104,7 @@
 		</div>
 		<!-- //container  -->
 
-		<div id="footer">Copyright ⓒ 2020 황일영. All right reserved</div>
+		<div id="footer">Copyright ⓒ 2020 김수빈. All right reserved</div>
 		<!-- //footer -->
 
 	</div>

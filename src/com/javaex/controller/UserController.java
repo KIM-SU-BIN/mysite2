@@ -17,88 +17,90 @@ import com.javaex.vo.UserVo;
 public class UserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		System.out.println("UserContlroller");
-		
-		//action을 꺼낸다
+
+		// action을 꺼낸다
 		String action = request.getParameter("action");
-		
-		if("joinForm".equals(action)) {//회원가입 폼
+
+		if ("joinForm".equals(action)) {// 회원가입 폼
 			System.out.println("UserController>joinForm");
-			
-		//joinForm.jsp과 포워드!(=회원가입 폼 포워드)
-		WebUtil.forword(request, response, "/WEB-INF/views/user/joinForm.jsp");
-		
-		} else if ("join".equals(action)) {//회원가입
+
+			// joinForm.jsp과 포워드!(=회원가입 폼 포워드)
+			WebUtil.forword(request, response, "/WEB-INF/views/user/joinForm.jsp");
+
+		} else if ("join".equals(action)) {// 회원가입
 			System.out.println("UserController>join");
-			
-			//파라미터 꺼내기*4
+
+			// 파라미터 꺼내기*4
 			String id = request.getParameter("id");
 			String password = request.getParameter("password");
 			String name = request.getParameter("name");
 			String gender = request.getParameter("gender");
-			
-			//0*333 Vo만들기
-			UserVo uservo = new UserVo(id, name, password, gender);
-			System.out.println(uservo);
-			
-			//Dao를 이용하여 저장하기
-			UserDao userDao = new UserDao(); 
-			userDao.insert(uservo);
-			
-			//포워드
-			WebUtil.forword(request, response, "/WEB-INF/views/user/joinOk.jsp");
-			
-		}else if("loginForm".equals(action)) { //로그인 폼
-		System.out.println("UserContoller>loginForm");
-		
-		//로그인 폼 포워드
-		WebUtil.forword(request, response, "/WEB-INF/views/user/loginForm.jsp");
-		
-		} else if ("login".equals(action)) {//로그인
-			System.out.println("UserContoller>login");
-			
-		//파라미터 꺼내기
-		String id = request.getParameter("id");
-		String password = request.getParameter("password");
-		
-		//Vo만들기
-		UserVo userVo= new UserVo();
-		userVo.setId(id);
-		userVo.setId(password);
 
-		//dao
-		UserDao userDao = new UserDao();
-		UserVo authUser = userDao.getUser(userVo);	//id,password--> user전체
-		
-		
-		//authUSer 주소값이 있으면 --> 로그인 성공
-		//authUSer null이면 -->로그인 실패
-		if(authUser == null) {
-			System.out.println("로그인 실패");
-		} else {
-			System.out.println("로그인 성공");
+			// 0*333 Vo만들기
+			UserVo uservo = new UserVo(id, password, name, gender);
+			System.out.println(uservo);
+
+			// Dao를 이용하여 저장하기
+			UserDao userDao = new UserDao();
+			userDao.insert(uservo);
+
+			// 포워드
+			WebUtil.forword(request, response, "/WEB-INF/views/user/joinOk.jsp");
+
+		} else if ("loginForm".equals(action)) { // 로그인 폼
+			System.out.println("UserContoller>loginForm");
+
+			// 로그인 폼 포워드
+			WebUtil.forword(request, response, "/WEB-INF/views/user/loginForm.jsp");
+
+		} else if ("login".equals(action)) {// 로그인
+			System.out.println("UserContoller>login");
+
+			// 파라미터 꺼내기
+			String id = request.getParameter("id");
+			String password = request.getParameter("password");
+
+			// Vo만들기
+			UserVo userVo = new UserVo();
+			userVo.setId(id);
+			userVo.setPassword(password);
+
+			// dao
+			UserDao userDao = new UserDao();
+			UserVo authUser = userDao.getUser(userVo); // id,password--> user전체
+
 			
-			HttpSession session = request.getSession();
-			session.setAttribute("authUser", authUser);
 			
-			//메인 리다이렉트
-			WebUtil.redirect(request, response, "/mysite2/main");
-			
-			} 
-		
-		} else if("logout".equals(action)) {
+			// authUser 주소값이 있으면 --> 로그인 성공
+			// authUSer null이면 --> 로그인 실패
+			if (authUser == null) {
+				System.out.println("로그인 실패");
+			} else {
+				System.out.println("로그인 성공");
+
+				HttpSession session = request.getSession();
+				session.setAttribute("authUser", authUser);
+
+				// 메인 리다이렉트
+				WebUtil.redirect(request, response, "/mysite2/main");
+
+			}
+
+		} else if ("logout".equals(action)) {
 			System.out.println("UserController>logout");
-			
-			//세션값을 지운다
+
+			// 세션값을 지운다
 			HttpSession session = request.getSession();
 			session.removeAttribute("authUser");
 			session.invalidate();
-			
-			//메인으로 리다이렉트
+
+			// 메인으로 리다이렉트
 			WebUtil.redirect(request, response, "/mysite2/main");
-		
 		}
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

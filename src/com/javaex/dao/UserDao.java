@@ -88,7 +88,7 @@ public class UserDao {
 		return count;
 	}
 	
-	//사용자 정보 가져오기(로그인시 사용)
+	//사용자 정보 가져오기(로그인시 사용 no,name만 있음)
 	public UserVo getUser(UserVo userVo) {
 		UserVo authUser = null;
 		
@@ -100,7 +100,6 @@ public class UserDao {
 			//SQL문 준비 
 			String query = "";
 			query += " select  no, ";
-			query += "         id, ";
 			query += "         name ";
 			query += " from users ";
 			query += " where id = ? ";
@@ -122,8 +121,57 @@ public class UserDao {
 				
 				authUser = new UserVo();
 				authUser.setNo(no);
-				authUser.setId(id);
 				authUser.setName(name);
+				
+			}
+			
+		} catch (SQLException e) {
+		    System.out.println("error:" + e);
+		} 
+		
+		this.close();
+
+		return authUser;
+		
+		
+		
+		
+	} 	//사용자 정보 가져오기(로그인시 사용 no,name만 있음)
+		public UserVo getUser(int no) {
+		UserVo authUser = null;
+		
+		this.getConnection();
+
+		try {
+
+		    // 3. SQL문 준비 / 바인딩 / 실행
+			//SQL문 준비 
+			String query = "";				//항상고정 
+			query += " select  no, ";
+			query += "         id, ";
+			query += "         password, ";
+			query += "         name, ";
+			query += "         gender";
+			query += " from users ";
+			query += " where no = ? ";
+			
+			//바인딩 
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, no);
+			
+			//실행
+			rs = pstmt.executeQuery();
+			
+		    // 4.결과처리
+			while(rs.next()) {
+				String uid = rs.getString("id");
+				String name = rs.getString("name");
+				String password = rs.getString("password");
+				String gender = rs.getString("gender");
+				
+				authUser = new UserVo(no, uid, password, name, gender);
+				
+				
 			}
 			
 		} catch (SQLException e) {
@@ -136,6 +184,54 @@ public class UserDao {
 		
 	}
 	
+		
+		
 	
-	
+	// 업데이트(회원정보 수정폼 no, name, id, password, gender)
+	public UserVo User(UserVo updateVo) {
+		UserVo authUser = null;
+
+		this.getConnection();
+
+		try {
+
+			// 3. SQL문 준비 / 바인딩 / 실행
+			// SQL문 준비
+			String query = "";				//항상고정 
+			query += " select  no, ";
+			query += "         id, ";
+			query += "         password, ";
+			query += "         name, ";
+			query += "         gender";
+			query += " from users ";
+			query += " where id = ? ";
+			System.out.println(query);
+
+			// 바인딩
+			pstmt = conn.prepareStatement(query);
+
+			// 실행
+			rs = pstmt.executeQuery();
+
+			// 4.결과처리
+			while (rs.next()) {
+				int no = rs.getInt("no");
+				String id = rs.getString("id");
+				String password = rs.getString("password");
+				String name = rs.getString("name");
+				String gender = rs.getString("gender");
+
+				authUser = new UserVo(no, id, password, name, gender);
+				
+			}
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+
+		this.close();
+
+		return authUser;
+	}
+
 }

@@ -18,7 +18,7 @@ public class WebUtil {
 	
 	//메소드-일반
 	//포워드
-	public static void forword(HttpServletRequest request, 
+	public static void forward(HttpServletRequest request, 
 								HttpServletResponse response,
 								String path) throws ServletException, IOException {
 		

@@ -1,9 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="com.javaex.vo.UserVo" %>
 
-<%@page import="com.javaex.vo.UserVo" %>
-
-<%  UserVo authUser = (UserVo)session.getAttribute("authUser");
-%>
+<%-- UserVo authUser = (UserVo)session.getAttribute("authUser"); --%>
+<% UserVo userVo = (UserVo)session.getAttribute("userVo"); %>
 
 <!DOCTYPE html>
 <html>
@@ -18,11 +17,11 @@
 <body>
 
 	<div id="wrap">
+	
+		<!-- header -->
+		<jsp:include page="/WEB-INF/views/includes/header.jsp"></jsp:include>
+		<!-- //header -->
 
-		<div id="header" class="clearfix">
-			<h1>
-				<a href="/mysite2/user?action=Main"> MySite </a>
-			</h1>
 
 			<!-- 
 			<ul>
@@ -39,14 +38,8 @@
 		</div>
 		<!-- //header -->
 
-		<div id="nav">
-			<ul class="clearfix">
-				<li><a href="">입사지원서</a></li>
-				<li><a href="">게시판</a></li>
-				<li><a href="">갤러리</a></li>
-				<li><a href="">방명록</a></li>
-			</ul>
-		</div>
+		<!-- nav -->
+		<jsp:include page="/WEB-INF/views/includes/nav.jsp"></jsp:include>
 		<!-- //nav -->
 
 		<div id="container" class="clearfix">
@@ -77,14 +70,14 @@
 
 				<div id="user">
 					<div id="modifyForm">
-						<form action="/mysite2/user" method="">
+						<form action="/mysite2/user" method="get">
 						<input type="text" name="action" value="modify">
 
 							<!-- 아이디 -->
 							<div class="form-group">
 								<label class="form-text" for="input-uid">아이디</label> 
-								<input type="text" id="input-name" name="id" value="<%=authUser.getId()%>">
-								<span class="text-large bold"> <%=authUser.getId()%> </span>
+								<input type="text" id="input-name" name="id" value="<%=userVo.getId()%>">
+								<span class="text-large bold"> <%=userVo.getId()%> </span>
 							</div>
 
 							<!-- 비밀번호 -->
@@ -96,17 +89,31 @@
 							<!-- 이메일 -->
 							<div class="form-group">
 								<label class="form-text" for="input-name">이름</label> 
-								<input type="text" id="input-name" name="name" value="" placeholder="이름을 입력하세요">
+								<input type="text" id="input-name" name="name" value="<%=userVo.getName() %>" placeholder="이름을 입력하세요">
 							</div>
 
 							<!-- //나이 -->
 							<div class="form-group">
 								<span class="form-text">성별</span> 
+								
+								
+								<% if(userVo.getGender().equals("male")){%>
 								<label for="rdo-male">남</label>
-								<input type="radio" id="rdo-male" name="남" value=""> 
+								<input type="radio" id="rdo-male" name="남" value="" checked="checked"> 
+								
 								<label for="rdo-female">여</label> 
 								<input type="radio" id="rdo-female" name="여" value="">
-
+								
+								<%} else {%>
+								<label for="rdo-male">남</label>
+								<input type="radio" id="rdo-male" name="남" value=""> 
+								
+								<label for="rdo-female">여</label> 
+								<input type="radio" id="rdo-female" name="여" value=""  checked="checked">
+								
+								<% } %>
+								
+								
 							</div>
 
 							<!-- 버튼영역 -->
@@ -127,10 +134,10 @@
 		</div>
 		<!-- //container  -->
 
-		<div id="footer">Copyright ⓒ 2020 김수빈 คʕ•ﻌ•ʔค . All right reserved</div>
+		<!-- footer -->
+		<jsp:include page="/WEB-INF/views/includes/footer.jsp"></jsp:include>
 		<!-- //footer -->
 
-	</div>
 	<!-- //wrap -->
 
 </body>

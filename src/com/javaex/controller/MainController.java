@@ -28,7 +28,7 @@ public class MainController extends HttpServlet {
 	System.out.println("MainController");
 	
 	//포워드(index페이지)
-	WebUtil.forword(request, response,"/WEB-INF/views/main/index.jsp");
+	WebUtil.forward(request, response,"/WEB-INF/views/main/index.jsp");
 	}
 
 	

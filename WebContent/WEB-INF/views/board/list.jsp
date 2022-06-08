@@ -80,18 +80,10 @@
 										<td>${boardVo.hit }</td>
 										<td>${boardVo.date }</td>
 										<c:if test="${authUser.no eq boardVo.userNo }">
-											<td><a href="">[삭제]</a></td>
+											<td><a href="/mysite2/board?action=delete&no=${boardVo.no}">[삭제]</a></td>
 										</c:if>
 									</tr>
 								</c:forEach>
-									<tr>
-									<td>123</td>
-									<td class="text-left"><a href="/mysite2/board?action=read">게시판 게시글입니다.</a></td>
-									<td>정우성</td>
-									<td>1232</td>
-									<td>2020-12-23</td>
-									<td><a href="">[삭제]</a></td>
-								</tr>
 							</tbody>
 						</table>
 

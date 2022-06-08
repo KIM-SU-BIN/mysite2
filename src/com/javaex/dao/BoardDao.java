@@ -52,12 +52,14 @@ public class BoardDao {
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
 		}
+
 	}
 
 	public List<BoardVo> getBoardList() { // list
 
-		List<BoardVo> boardList = new ArrayList<BoardVo>();
-
+		//List<BoardVo> boardList = new ArrayList<BoardVo>();
+		List<BoardVo> list = new ArrayList<>();
+		
 		this.getConnection();
 
 		try {
@@ -70,9 +72,9 @@ public class BoardDao {
 			query += "         ,board.hit ";
 			query += "         ,to_char(board.reg_date,'YY-MM-DD HH24:MI') \"reg_date\" ";
 			query += "         ,board.user_no ";
-			query += "         ,user.name ";
-			query += " from board, user ";
-			query += " where board.user_no = user.no ";
+			query += "         ,users.name ";
+			query += " from board, users ";
+			query += " where board.user_no = users.no ";
 
 			// 바인딩 => 쿼리로 만들기
 			pstmt = conn.prepareStatement(query);
@@ -90,7 +92,7 @@ public class BoardDao {
 				int userNo = rs.getInt("user_no");
 				String name = rs.getString("name");
 
-				boardList.add(new BoardVo(no, title, content, hit, date, userNo, name));
+				list.add(new BoardVo(no, title, content, hit, date, userNo, name));
 			}
 
 		} catch (SQLException e) {
@@ -98,12 +100,14 @@ public class BoardDao {
 		}
 
 		this.close();
-		return boardList;
+		return list;
 
-	} public BoardVo getBoard(int no) {	//board read
+	}
+
+	public BoardVo getBoard(int no) { // board read
 		BoardVo boardVo = null;
 		getConnection();
-		
+
 		try {
 
 			// 3. SQL문 준비 / 바인딩 / 실행 --> 완성된 sql문을 가져와서 작성할것
@@ -114,17 +118,16 @@ public class BoardDao {
 			query += "         ,board.hit ";
 			query += "         ,to_char(b.reg_date,'YY-MM-DD HH24:MI') \"reg_date\" ";
 			query += "         ,board.user_no ";
-			query += "         ,user.name ";
-			query += " from board , user ";
-			query += " where board.user_no = user.no ";
+			query += "         ,users.name ";
+			query += " from board , users ";
+			query += " where board.user_no = users.no ";
 			query += " and board.no = ? ";
 
-			
-			//바인딩
+			// 바인딩
 			pstmt = conn.prepareStatement(query); // 쿼리로 만들기
 			pstmt.setInt(1, no);
-			
-			//실행
+
+			// 실행
 			rs = pstmt.executeQuery();
 
 			// 4.결과처리
@@ -145,6 +148,41 @@ public class BoardDao {
 
 		close();
 		return boardVo;
+
+	}
+
+	public int boardWrite(BoardVo boardVo) { // writeForm
+
+		int count = -1;
+
+		getConnection();
+
+		try {
+			// 3. SQL문 준비 / 바인딩 / 실행 --> 완성된 sql문을 가져와서 작성할것
+			// SQL문 준비
+			String query = ""; // 고정
+			query += " insert into board ";
+			query += " values (seq_board_no.nextval, ?, ?, 0, sysdate, ?) ";
+
+			// 바인딩 => 쿼리로 만들기
+			pstmt = conn.prepareStatement(query);
+
+			pstmt.setString(1, boardVo.getTitle());
+			pstmt.setString(2, boardVo.getContent());
+			pstmt.setInt(3, boardVo.getUserNo());
+
+			// 실행
+			count = pstmt.executeUpdate();
+
+			// 4.결과처리
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+
+		close();
+
+		return count;
 
 	}
 }

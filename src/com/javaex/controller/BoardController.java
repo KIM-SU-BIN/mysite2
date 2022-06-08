@@ -28,11 +28,7 @@ public class BoardController extends HttpServlet {
 		System.out.println(action);
 		
 		
-		
-		
-		
-		
-		
+
 		if("list".equals(action)) {		//게시판 폼 
 			System.out.println("BoardController>list");
 			
@@ -46,6 +42,8 @@ public class BoardController extends HttpServlet {
 			// list.jsp과 포워드
 			WebUtil.forward(request, response, "/WEB-INF/views/board/list.jsp");
 
+			
+			
 			
 		}else if("writeForm".equals(action)) {		 //게시판 리스트
 			System.out.println("BoardController>writeForm");

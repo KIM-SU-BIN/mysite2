@@ -19,9 +19,15 @@ public class BoardVo {
 		
 	}
 	
+	public BoardVo(String title, String content, int no) {
+		this.title = title;
+		this.content = content;
+		this.no = no;
+		
+	}
+	
 	
 	public BoardVo(int no, String title, String content, int hit, String date, int userNo, String name) {
-		super();
 		this.no = no;
 		this.title = title;
 		this.content = content;

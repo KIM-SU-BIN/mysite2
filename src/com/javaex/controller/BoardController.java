@@ -8,10 +8,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.javaex.dao.BoardDao;
 import com.javaex.util.WebUtil;
 import com.javaex.vo.BoardVo;
+import com.javaex.vo.UserVo;
 
 
 @WebServlet("/board")
@@ -47,11 +49,29 @@ public class BoardController extends HttpServlet {
 			
 		}else if("writeForm".equals(action)) {		 //게시판 리스트
 			System.out.println("BoardController>writeForm");
-			
+						
 			//포워드
 			WebUtil.forward(request, response, "/WEB-INF/views/board/writeForm.jsp");
 		
 	
+		} else if("write".equals(action)) {			//write
+			System.out.println("boardController->write");	
+			
+			HttpSession session = request.getSession();
+			UserVo authUser = (UserVo)session.getAttribute("authUser");
+			int no = authUser.getNo();
+			
+			//글쓰기폼에 제목과 콘텐트
+			String title = request.getParameter("title");
+			String content = request.getParameter("content");
+			
+			//db에 저장
+			BoardDao boardDao = new BoardDao();
+			boardDao.boardWrite(new BoardVo(title, content, no));
+			
+			//list로 리다이렉트
+			WebUtil.redirect(request, response, "./board?action=list");
+			
 			
 			
 		
@@ -72,7 +92,12 @@ public class BoardController extends HttpServlet {
 			
 			WebUtil.forward(request, response, "/WEB-INF/views/board/read.jsp");
 			
-		}
+	
+		
+		
+		
+		}	
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

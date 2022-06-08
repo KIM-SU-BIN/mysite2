@@ -151,9 +151,9 @@ public class BoardDao {
 
 	}
 
-	public int boardWrite(BoardVo boardVo) { // writeForm
+	public void boardWrite(BoardVo boardVo) { 	// write 글쓰기
 
-		int count = -1;
+		//int count = -1;
 
 		getConnection();
 
@@ -172,17 +172,48 @@ public class BoardDao {
 			pstmt.setInt(3, boardVo.getUserNo());
 
 			// 실행
-			count = pstmt.executeUpdate();
+			int count = pstmt.executeUpdate();
 
 			// 4.결과처리
-
+			System.out.println("[" + count + "건 추가되었습니다.]");
+			
+			
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
 		}
 
 		close();
 
-		return count;
+		//return count;
+		
+		
+
+	}	public void boardDelete(int no) { 		// delete
+		getConnection();
+
+		try {
+			// 3. SQL문 준비 / 바인딩 / 실행 
+			// SQL문 준비
+			String query = ""; // 고정
+			query += " delete from board ";
+			query += " where no = ? ";
+
+			// 바인딩 => 쿼리로 만들기
+			pstmt = conn.prepareStatement(query); 
+			pstmt.setInt(1, no);
+			
+			// 실행
+			int count = pstmt.executeUpdate();
+		
+			// 4.결과처리
+			System.out.println("["+count+"건 삭제 되었습니다.]");
+			
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+
+		close();
 
 	}
 }

@@ -29,12 +29,13 @@ public class BoardController extends HttpServlet {
 		
 		
 
-		if("list".equals(action)) {		//게시판 폼 
+		if("list".equals(action)) {		//게시판 폼  OK
 			System.out.println("BoardController>list");
 			
 			//boardList 데이터 가져오기
 			BoardDao BoardDao = new BoardDao();
 			List<BoardVo> boardList = BoardDao.getBoardList();
+			System.out.println(boardList);
 			
 			//request에 데이터 추가
 			request.setAttribute("boardList", boardList);
@@ -45,14 +46,14 @@ public class BoardController extends HttpServlet {
 			
 			
 			
-		}else if("writeForm".equals(action)) {		 //게시판 리스트
+		}else if("writeForm".equals(action)) {		 //게시판 리스트	 OK
 			System.out.println("BoardController>writeForm");
 						
 			//포워드
 			WebUtil.forward(request, response, "/WEB-INF/views/board/writeForm.jsp");
 		
 	
-		} else if("write".equals(action)) {			//write
+		} else if("write".equals(action)) {			//write OK
 			System.out.println("boardController->write");	
 			
 			HttpSession session = request.getSession();
@@ -73,7 +74,7 @@ public class BoardController extends HttpServlet {
 			
 			
 		
-		} else if("read".equals(action)) {		//게시판 글 보기
+		} else if("read".equals(action)) {		//게시판 글 보기 
 			System.out.println("BoardController>read");
 			
 			//주의 -> getParameter은 string타입으로 숫차로 변환시 int를 사용하여 변환하기!!!!
@@ -89,12 +90,28 @@ public class BoardController extends HttpServlet {
 			request.setAttribute("boardVo", boardVo);
 			
 			WebUtil.forward(request, response, "/WEB-INF/views/board/read.jsp");
-			
+	
 	
 		
 		
-		
-		}	
+		}	else if("delete".equals(action)) {			//삭제
+			System.out.println("boardController->delete");	
+			
+			//no 파라미터 가져오기
+			int no = Integer.parseInt(request.getParameter("no"));
+			
+			//board 삭제
+			BoardDao boardDao = new BoardDao();
+			boardDao.boardDelete(no);
+			
+			//list로 리다이렉트
+			WebUtil.redirect(request, response, "./board?action=list");
+			
+			
+		}else {
+				System.out.println("action 파라미터 없음");
+				WebUtil.redirect(request, response, "./board?action=list");
+		}
 		
 	}
 

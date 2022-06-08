@@ -15,7 +15,7 @@ create table board (
     reg_date date not null,
     user_no number not null,
     primary key(no),
-    CONSTRAINT fk_user_no foreign key(no) 
+    CONSTRAINT fk_user_no foreign key(user_no) 
     references users(no)
     );
     
@@ -33,7 +33,7 @@ values(seq_board_no.nextval, '제목', '~ 글 ~', 1, sysdate, 1);
 
 
 -- 조회 --
-select  no,
+select  board.no,
         title,
         content,
         hit,
@@ -44,9 +44,11 @@ from board, users
 where board.user_no = users.no
 order by no desc;
 
-
 SELECT * 
 FROM users;
+
+SELECT * 
+FROM board;
 
 
 -- 커밋 --

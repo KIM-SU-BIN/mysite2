@@ -56,9 +56,9 @@ public class BoardController extends HttpServlet {
 		} else if("write".equals(action)) {			//write OK
 			System.out.println("boardController->write");	
 			
-			HttpSession session = request.getSession();
-			UserVo authUser = (UserVo)session.getAttribute("authUser");
-			int no = authUser.getNo();
+			
+			int userNo = Integer.parseInt(request.getParameter("userNo"));
+			System.out.println(userNo);
 			
 			//글쓰기폼에 제목과 콘텐트
 			String title = request.getParameter("title");
@@ -66,7 +66,7 @@ public class BoardController extends HttpServlet {
 			
 			//db에 저장
 			BoardDao boardDao = new BoardDao();
-			boardDao.boardWrite(new BoardVo(title, content, no));
+			boardDao.boardWrite(new BoardVo(title, content, userNo));
 			
 			//list로 리다이렉트
 			WebUtil.redirect(request, response, "./board?action=list");
@@ -79,12 +79,16 @@ public class BoardController extends HttpServlet {
 			
 			//주의 -> getParameter은 string타입으로 숫차로 변환시 int를 사용하여 변환하기!!!!
 			int no = Integer.parseInt(request.getParameter("no"));
+			System.out.println(no);
 			
 			//read 데이터 가져오기
 			BoardDao BoardDao = new BoardDao();
 			BoardVo boardVo = BoardDao.getBoard(no);
+			System.out.println(boardVo);
 			
-			
+			//조회수
+			boardVo.setHit(boardVo.getHit()+1);
+			BoardDao.boardUpdateHit(boardVo);
 			
 			//request에 데이터 추가
 			request.setAttribute("boardVo", boardVo);

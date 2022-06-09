@@ -116,22 +116,22 @@ public class BoardDao {
 			query += "         ,board.title ";
 			query += "         ,board.content ";
 			query += "         ,board.hit ";
-			query += "         ,to_char(b.reg_date,'YY-MM-DD HH24:MI') \"reg_date\" ";
+			query += "         ,to_char(board.reg_date,'YY-MM-DD HH24:MI') \"reg_date\" ";
 			query += "         ,board.user_no ";
 			query += "         ,users.name ";
-			query += " from board , users ";
+			query += " from board, users ";
 			query += " where board.user_no = users.no ";
 			query += " and board.no = ? ";
 
 			// 바인딩
 			pstmt = conn.prepareStatement(query); // 쿼리로 만들기
 			pstmt.setInt(1, no);
-
+			
 			// 실행
 			rs = pstmt.executeQuery();
 
 			// 4.결과처리
-			while (rs.next()) {
+			if (rs.next()) {
 				String title = rs.getString("title");
 				String content = rs.getString("content");
 				int hit = rs.getInt("hit");
@@ -150,6 +150,38 @@ public class BoardDao {
 		return boardVo;
 
 	}
+	public void boardUpdateHit(BoardVo boardVo) {		//Board 조회수 
+		getConnection();
+
+		try {
+
+			// 3. SQL문 준비 / 바인딩 / 실행
+			String query = ""; // 쿼리문 문자열만들기, ? 주의
+			query += " update board ";
+			query += " set hit = ? ";
+			query += " where no = ? ";
+
+			pstmt = conn.prepareStatement(query); // 쿼리로 만들기
+
+			pstmt.setInt(1, boardVo.getHit());
+			pstmt.setInt(2, boardVo.getNo());
+			
+
+			int count = pstmt.executeUpdate(); // 쿼리문 실행
+
+			// 4.결과처리
+			System.out.println("[" + count + "건 수정 되었습니다.]");
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+		close();
+	
+	
+	
+	
+	}
+	
 
 	public void boardWrite(BoardVo boardVo) { 	// write 글쓰기
 

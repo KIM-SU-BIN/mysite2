@@ -53,17 +53,19 @@
 
 				<div id="board">
 					<div id="writeForm">
-						<form action="#" method="get">
+						<form action="/mysite2/board?" method="get">
+							<input type="hidden" name="action" value="write">
+							<input type="hidden" name="userNo" value="${authUser.no }">
 							<!-- 제목 -->
 							<div class="form-group">
 								<label class="form-text" for="txt-title">제목</label> <input
-									type="text" id="txt-title" name="" value=""
+									type="text" id="txt-title" name="title" value=""
 									placeholder="제목을 입력해 주세요">
 							</div>
 
 							<!-- 내용 -->
 							<div class="form-group">
-								<textarea id="txt-content"></textarea>
+								<textarea id="txt-content" name="content"></textarea>
 							</div>
 
 							<a id="btn_cancel" href="">취소</a>

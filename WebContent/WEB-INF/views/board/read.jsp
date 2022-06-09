@@ -80,8 +80,10 @@
 							<div id="txt-content">
 								<span class="form-value">${boardVo.content }</span>
 							</div>
-
+							
+							
 							<a id="btn_modify" href="mysite2/board?action=modify">수정</a>
+							
 							<a id="btn_modify" href="/mysite2/board?action=list">목록</a>
 
 						</form>

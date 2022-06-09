@@ -31,8 +31,11 @@ public class BoardController extends HttpServlet {
 			System.out.println("BoardController>list");
 			
 			//boardList 데이터 가져오기
-			BoardDao BoardDao = new BoardDao();
-			List<BoardVo> boardList = BoardDao.getBoardList();
+			BoardDao boardDao = new BoardDao();
+			
+			String keyword =request.getParameter("keyword");
+			
+			List<BoardVo> boardList = boardDao.getBoardList(keyword);
 			System.out.println(boardList);
 			
 			//request에 데이터 추가

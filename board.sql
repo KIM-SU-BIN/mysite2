@@ -2,11 +2,8 @@
 drop table board;
 drop sequence seq_board_no;
 
--- 테이블 삭제 --
-DROP TABLE board;
 
-
--- 테이블 생성 --
+-- 테이블 생성 my ver --
 create table board (
     no      number,
     title   varchar2(500) not null,
@@ -18,6 +15,21 @@ create table board (
     CONSTRAINT fk_user_no foreign key(user_no) 
     references users(no)
     );
+
+    
+    
+    -- 가은 ver --
+        create table board(
+        no number
+        , title varchar2 (500) not null
+        , content varchar2 (4000)
+        , hit number
+        , reg_date date not null
+        , user_no number not null
+        , primary key (no)
+        , CONSTRAINT board_fk
+        FOREIGN KEY (user_no)
+        REFERENCES users (no)
     
         
 -- 시퀀스 생성 --

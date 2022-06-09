@@ -246,6 +246,41 @@ public class BoardDao {
 		}
 
 		close();
+		
+		
+		
 
+	}public int boardModify(BoardVo boardVo) { 		// 수정
+		int count = -1;
+		getConnection();
+
+		try {
+			// 3. SQL문 준비 / 바인딩 / 실행 
+			// SQL문 준비
+			String query = ""; // 고정
+			query += " update board ";
+			query += " set title = ?, ";
+			query += "     content = ? ";
+			query += " where no = ? ";
+			
+			// 바인딩 => 쿼리로 만들기
+			pstmt = conn.prepareStatement(query); 
+			
+			pstmt.setString(1, boardVo.getTitle());
+			pstmt.setString(2, boardVo.getContent());
+			pstmt.setInt(3, boardVo.getNo());
+			
+			// 실행
+			count = pstmt.executeUpdate();
+		
+			// 4.결과처리
+			System.out.println("["+count+"건 수정 되었습니다.]");
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+
+		close();
+		return count;
 	}
 }

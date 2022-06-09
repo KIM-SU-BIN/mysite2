@@ -8,12 +8,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.javaex.dao.BoardDao;
 import com.javaex.util.WebUtil;
 import com.javaex.vo.BoardVo;
-import com.javaex.vo.UserVo;
 
 
 @WebServlet("/board")
@@ -95,8 +93,54 @@ public class BoardController extends HttpServlet {
 			
 			WebUtil.forward(request, response, "/WEB-INF/views/board/read.jsp");
 	
+			
+			
+			
+			
 	
-		
+		} else if("modifyForm".equals(action)) {		//modifyForm
+			System.out.println("BoardController>modifyForm");
+			
+			//제목, 콘텐트 가져오기
+			int no = Integer.parseInt(request.getParameter("no"));
+			
+			//db에 저장
+			BoardDao boardDao = new BoardDao();
+			
+			//생성자 대신 사용
+			BoardVo boardVo = boardDao.getBoard(no);
+			request.setAttribute("boardVo", boardVo);
+			
+			//포워드
+			WebUtil.forward(request, response, "/WEB-INF/views/board/modifyForm.jsp");	
+			
+			
+			
+			
+		} else if("modify".equals(action)) {		//modify
+			System.out.println("BoardController>modify");
+			
+			//제목, 콘텐트 가져오기
+			int no = Integer.parseInt(request.getParameter("no"));
+			String name = request.getParameter("name");
+			String content = request.getParameter("content");
+			
+			//db에 저장
+			BoardDao boardDao = new BoardDao();
+			
+			//생성자 대신 사용
+			BoardVo boardVo = new BoardVo();
+			boardVo.setNo(no);
+			boardVo.setName(name);
+			boardVo.setContent(content);
+			
+			boardDao.boardModify(boardVo);
+			
+			WebUtil.redirect(request, response, "./board?action=list");
+			
+			
+			
+			
 		
 		}	else if("delete".equals(action)) {			//삭제
 			System.out.println("boardController->delete");	

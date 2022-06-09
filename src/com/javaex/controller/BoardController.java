@@ -122,7 +122,7 @@ public class BoardController extends HttpServlet {
 			
 			//제목, 콘텐트 가져오기
 			int no = Integer.parseInt(request.getParameter("no"));
-			String name = request.getParameter("name");
+			String title = request.getParameter("title");
 			String content = request.getParameter("content");
 			
 			//db에 저장
@@ -131,8 +131,10 @@ public class BoardController extends HttpServlet {
 			//생성자 대신 사용
 			BoardVo boardVo = new BoardVo();
 			boardVo.setNo(no);
-			boardVo.setName(name);
+			boardVo.setTitle(title);
 			boardVo.setContent(content);
+			
+			System.out.println(boardVo);
 			
 			boardDao.boardModify(boardVo);
 			

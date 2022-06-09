@@ -43,6 +43,7 @@ public class BoardController extends HttpServlet {
 			
 			// list.jsp과 포워드
 			WebUtil.forward(request, response, "/WEB-INF/views/board/list.jsp");
+			
 
 			
 			

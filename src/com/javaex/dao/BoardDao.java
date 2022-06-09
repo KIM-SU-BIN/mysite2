@@ -57,8 +57,7 @@ public class BoardDao {
 	// list출력 + 제목 검색기능 추가하기
 	public List<BoardVo> getBoardList(String keyword) { 
 
-		// List<BoardVo> boardList = new ArrayList<BoardVo>();
-		List<BoardVo> list = new ArrayList<BoardVo>();
+		List<BoardVo> boardList = new ArrayList<BoardVo>();
 
 		this.getConnection();
 
@@ -113,7 +112,7 @@ public class BoardDao {
 				int userNo = rs.getInt("user_no");
 				String name = rs.getString("name");
 
-				list.add(new BoardVo(no, title, content, hit, date, userNo, name));
+				boardList.add(new BoardVo(no, title, content, hit, date, userNo, name));
 			}
 
 		} catch (SQLException e) {
@@ -121,7 +120,7 @@ public class BoardDao {
 		}
 
 		this.close();
-		return list;
+		return boardList;
 
 	}
 

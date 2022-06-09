@@ -107,8 +107,9 @@
 
 							<div class="clear"></div>
 						</div>
+						<c:if test="${not empty authUser }">
 						<a id="btn_write" href="/mysite2/board?action=writeForm">글쓰기</a>
-
+						</c:if>
 					</div>
 					<!-- //list -->
 				</div>

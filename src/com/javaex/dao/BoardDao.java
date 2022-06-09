@@ -65,39 +65,36 @@ public class BoardDao {
 			// 3. SQL문 준비 / 바인딩 / 실행
 			// SQL문 준비
 			String query = ""; // 항상고정
-			query += " select   no ";
-			query += " 		   ,title ";
-			query += " 		   ,content" ;
-			query += " 		   ,hit ";
-			query += "         ,reg_date ";
-			query += "         ,user_no ";
-			query += "         ,name ";
-			query += " from (select  board.no ";
+			query += " select  board.no ";
 			query += "         ,board.title ";
 			query += "         ,board.content ";
 			query += "         ,board.hit ";
-			query += "         ,to_char(board.reg_date,'YY-MM-DD HH24:MI') reg_date ";
+			query += "         ,to_char(board.reg_date,'YY-MM-DD HH24:MI') \"reg_date\" ";
 			query += "         ,board.user_no ";
-			query += "		   ,users.name ";
+			query += "         ,users.name ";
 			query += " from board, users ";
 			query += " where board.user_no = users.no ";
-			query += " order by board.no desc ) ";
-
+			
 
 
 			// 제목 검색기능
-			if (keyword != "" || keyword != null) {
 
-				query += "where title like ? ";
+			if(keyword == null){
+				
+				query += " order by board.no desc ";
+				
+				//else에 있는 구문을 먼저 쓸 경우 값이 없는 null값 상태에서 조회하기 때문에 브라우저에 출력 안됨
+				pstmt = conn.prepareStatement(query);
+
+			} else {
+				
+				query += " and board.title = ? ";
+				query += " order by board.no desc ";
 
 				pstmt = conn.prepareStatement(query); // 쿼리로 만들기
 
 				pstmt.setString(1, '%' + keyword + '%'); // ?(물음표) 중 1번째, 순서중요
-
-			} else {
-
-				pstmt = conn.prepareStatement(query);
-
+			
 			}
 
 			rs = pstmt.executeQuery();
@@ -111,6 +108,7 @@ public class BoardDao {
 				String date = rs.getString("reg_date");
 				int userNo = rs.getInt("user_no");
 				String name = rs.getString("name");
+				System.out.println("rs");
 
 				boardList.add(new BoardVo(no, title, content, hit, date, userNo, name));
 			}

@@ -59,9 +59,6 @@ public class UserController extends HttpServlet {
 
 			// 로그인 폼 포워드
 			WebUtil.forward(request, response, "/WEB-INF/views/user/loginForm.jsp");
-
-			
-			
 			
 		} else if ("login".equals(action)) {// 로그인
 			System.out.println("UserContoller>login");
